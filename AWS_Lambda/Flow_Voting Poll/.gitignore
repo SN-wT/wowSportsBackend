@@ -1,0 +1,8 @@
+# Environment variable file
+.env
+
+# Dependency directories
+node_modules/
+
+# lint configuration file
+.eslintrc.cjs
