@@ -64,6 +64,8 @@ export const votePoll = async (address, userPrivateKey, pollname, choice) => {
 
     let temp <- wowSportsPoll.getPollAdmin()
 
+    temp.voteOnPoll(pollname: pollname, choice: choice, addressCheckResource: resourceCheck!)
+
     destroy temp;
    
     }

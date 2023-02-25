@@ -10,7 +10,7 @@ transaction {
       let resourceCheck = acct.borrow<&wowSportsPoll.checkAddrResource>(from: /storage/address)
   let temp <- wowSportsPoll.getPollAdmin()
 
-  log(temp.voteOnPoll(pollname: "Who will be the NBA champions in 2023", choice: "Golden State Warriors", addressCheckResource: resourceCheck!))
+  temp.voteOnPoll(pollname: "Who will be the NBA champions in 2023", choice: "Golden State Warriors", addressCheckResource: resourceCheck!)
 
   destroy temp;
     

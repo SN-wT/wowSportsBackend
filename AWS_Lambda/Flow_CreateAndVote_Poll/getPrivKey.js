@@ -3,6 +3,7 @@ import AWS from 'aws-sdk'
 import crypto from 'crypto-js'
 import dotenv from 'dotenv'
 import { votePoll } from './votePoll.js'
+import { getPollVoteCounts } from './getPollVoteCounts.js'
 dotenv.config()
 
 // Aws Config
@@ -45,7 +46,8 @@ export const getPrivKey = async (userId, pollname, choice) => {
     }
     const userPrivateKey = await crypto.AES.decrypt(encryptPrivateKey, 'flow@wowT').toString(crypto.enc.Utf8)
     await votePoll(address, userPrivateKey, pollname, choice)
-    return { body: 'Polling vote added successfully' }
+    const response = await getPollVoteCounts(pollname)
+    return { body: response }
   } catch (error) {
     console.error(error)
   }
