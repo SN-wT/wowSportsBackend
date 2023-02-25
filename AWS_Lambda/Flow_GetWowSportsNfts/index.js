@@ -20,7 +20,7 @@ export const handler = async function (event, context) {
   // Cadence code for getting nfts
   const cadence = `
 
-  import wowSports from 0x59b297f21e60da9d
+  import wowSports from 0x7b4b3fdedb68dad7
   import MetadataViews from 0x631e88ae7f1d7c20
 
   pub fun main(address: Address): [wowSports.wowSportsData] {
