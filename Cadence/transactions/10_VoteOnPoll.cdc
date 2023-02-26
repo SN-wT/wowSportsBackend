@@ -1,4 +1,4 @@
-import wowSportsPoll from 0x59b297f21e60da9d
+import wowSportsPoll from 0xf3510e7eb2b4cb38
 
 transaction {
 

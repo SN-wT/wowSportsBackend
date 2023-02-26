@@ -5,7 +5,7 @@ pub contract wowSportsPoll {
     access(account) let wowSportsPollsMaster: {String: Choices}
 
     // A mapping of all accounts which voted in a poll to prevent re-voting
-    access(account) let votedAccountXref: {Address: {String: String}}
+    access(account) let votedAccountXref: {Address: [String]}
     
     // Count of votes for all choices 
     access(account) let choiceVotesCount: {String: {String: Int}}
@@ -57,12 +57,13 @@ pub contract wowSportsPoll {
         
   }
 
-
+/*
     pub fun getVotesByAccount(account: Address): {String: String} {
 
         return self.votedAccountXref[account] ?? {};
         
   }
+  */
 
   // Providing a resource accessible through interface      
    pub fun getPollAdmin(): @PollAdministrator{IPollAdmin} {
@@ -73,6 +74,8 @@ pub contract wowSportsPoll {
 
 
    pub resource interface IPollAdmin {
+
+       // access(account) fun createPoll(pollName: String,choiceA: String, choiceB: String, choiceC: String, activeFlag: Bool)
 
         pub fun voteOnPoll(pollname: String, choice: String, addressCheckResource: &wowSportsPoll.checkAddrResource): {String: Int}
         
@@ -95,17 +98,26 @@ pub contract wowSportsPoll {
   pub fun voteOnPoll(pollname: String, choice: String, addressCheckResource: &wowSportsPoll.checkAddrResource): {String: Int} {
    
 
+
         pre {
             (addressCheckResource != nil && addressCheckResource.owner != nil && addressCheckResource.owner?.address != nil) : "Provided resource is not valid"
             wowSportsPoll.wowSportsPollsMaster[pollname] != nil && wowSportsPoll.wowSportsPollsMaster[pollname]?.active! : "This poll is not active"
-            wowSportsPoll.votedAccountXref[addressCheckResource.owner?.address!] == nil || wowSportsPoll.votedAccountXref[addressCheckResource.owner?.address!]![pollname] == nil : "You have already voted on this poll!"
+            (wowSportsPoll.votedAccountXref[addressCheckResource.owner?.address!] == nil || !wowSportsPoll.votedAccountXref[addressCheckResource.owner?.address!]!.contains(pollname)) : "You have already voted on this poll!"
             (wowSportsPoll.wowSportsPollsMaster[pollname]?.choiceA == choice || wowSportsPoll.wowSportsPollsMaster[pollname]?.choiceB == choice || wowSportsPoll.wowSportsPollsMaster[pollname]?.choiceC == choice) : "Not valid choice for the poll"
         }
+        
+        
+
             let votes =  wowSportsPoll.choiceVotesCount[pollname] ?? {}
             let votecount = votes[choice] ?? 0
             votes[choice] = votecount + 1
             wowSportsPoll.choiceVotesCount[pollname] = votes
-            wowSportsPoll.votedAccountXref[addressCheckResource.owner?.address!] = {pollname: choice}
+            if (wowSportsPoll.votedAccountXref[addressCheckResource.owner?.address!] == nil) {
+            wowSportsPoll.votedAccountXref[addressCheckResource.owner?.address!] = [pollname]
+            } else {
+            wowSportsPoll.votedAccountXref[addressCheckResource.owner?.address!]!.append(pollname)
+            }
+            log("before return")
             return wowSportsPoll.choiceVotesCount[pollname] ?? {"Error": 000}
 
   }

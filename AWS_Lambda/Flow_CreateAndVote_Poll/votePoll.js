@@ -51,7 +51,7 @@ export const votePoll = async (address, userPrivateKey, pollname, choice) => {
   // Cadence code for voting poll
   const cadence = `
 
-  import wowSportsPoll from 0x59b297f21e60da9d
+  import wowSportsPoll from 0xf3510e7eb2b4cb38
 
     transaction(pollname: String, choice: String) {
 

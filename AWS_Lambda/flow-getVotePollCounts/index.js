@@ -5,9 +5,17 @@ config({
   'accessNode.api': 'https://rest-testnet.onflow.org'
 })
 
-export const getPollVoteCounts = async (pollname) => {
+export const handler = async function (event, context) {
+  let pollname = ''
 
-  // Cadence code for getting poll vote counts
+  try {
+    pollname = event.pollname
+  } catch (err) {
+    console.log('Starting... error with event processing ', err)
+    return 'error getting input Details'
+  }
+
+  // Cadence code for get vote poll counts
   const cadence = `
 
   import wowSportsPoll from 0xf3510e7eb2b4cb38
@@ -18,7 +26,7 @@ export const getPollVoteCounts = async (pollname) => {
   }
     `
 
-  // "query" method will return poll counts
+  // "query" method will return PollCounts
   const PollCounts = await query({
     cadence,
     args: (arg, t) => [arg(pollname, t.String)]
