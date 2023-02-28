@@ -1,4 +1,4 @@
- // 
+// 
 // Adapted from https://dev.to/muttoni/lets-build-a-twitter-clone-on-web3-a-comprehensive-guide-to-building-on-flow-24l9
 //
 pub contract wowSportsPostsV2 {
@@ -15,12 +15,14 @@ pub contract wowSportsPostsV2 {
 
     //
     // Map of reactions count for a Postid
-    // 
-    //access(self) var postReactions: {UInt64: UInt64} 
+    // Maintaining reactions count seperate from the posts
+    // as these could be used to enter posts into top monthly posts etc
+    //
 
     pub event CreatedPost(postid: UInt64)
 
     // Interface to expose get count alone
+    // as anyone can get a count of likes for a post
   pub resource interface IReactionsPublic {
        pub fun getReactionsCount(id: UInt64): UInt64 
     }
@@ -54,16 +56,7 @@ pub contract wowSportsPostsV2 {
 
                     return self.postReactions[id] ?? 0;
             }
-
     }
-
-/*
-      pub fun getPostReactionsAdmin(): @PostReactions {
-
-            return <- create PostReactions()
-
-    }
-    */
     
 
     pub resource Post {
@@ -99,8 +92,7 @@ pub contract wowSportsPostsV2 {
         pub var posts: @{UInt64: Post}
     
 
-   //  pub fun savePost(post: @Post, recentPostsResource: &wowSportsPostsV2.recent50Posts): UInt64 {
-   pub fun savePost(post: @Post): UInt64 {
+       pub fun savePost(post: @Post): UInt64 {
            
             let newid = post.postid;
             self.posts[post.postid] <-! post
@@ -109,25 +101,6 @@ pub contract wowSportsPostsV2 {
             return newid;
             
         }
-
-
-    /*
-          pub fun updatePostReactions(postid: UInt64): UInt64 {
-       
-              let reactionCount = wowSportsPostsV2.postReactions[postid] ??  0
-              wowSportsPostsV2.postReactions[postid] =  reactionCount + 1
-              return wowSportsPostsV2.postReactions[postid]!
-           
-        }
-
-    
-
-        pub fun getReactionsCount(id: UInt64): UInt64 {
-                return wowSportsPostsV2.postReactions[id] ?? 0
-        }
-        */
-
-    
 
         // get all the id's of the posts in the collection
         pub fun getIDs(): [UInt64] {
@@ -154,8 +127,7 @@ pub contract wowSportsPostsV2 {
     init() {
 
        
-         //   self.postReactions = {}
-         //   self.postsAddressCrossRef = {}
+        
             self.wowSportsPostsV2CollectionStoragePath = /storage/wowSportsPostsV2Collection
          //   self.wowSportsRecentPostsStoragePath = /storage/wowSportsRecentPostsCollection
             self.wowSportsReactionsStoragePath = /storage/StoragePathRecations
