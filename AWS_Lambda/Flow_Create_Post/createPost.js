@@ -1,3 +1,4 @@
+//This script used for creating user posts
 import { config, mutate, tx, sansPrefix, withPrefix } from '@onflow/fcl'
 import { admin } from './adminAcc.js'
 import { SHA3 } from 'sha3'
@@ -47,26 +48,26 @@ export const createPost = async (address, userPrivateKey, post, url) => {
     }
   }
 
-  console.log('Signing Transaction')
+ 
 
-  // Our Cadence code. Notice the use of alias here
+  // Cadence code for creating user posts
   const cadence = `
-  import wowSportsPosts from 0x6c4a3489acbd49eb
+  import wowSportsPostsV2 from 0xf3510e7eb2b4cb38
 
   transaction(post: String, url: String, timestamp: String) {
 
     prepare(acct: AuthAccount) {
   
-      if acct.borrow<&wowSportsPosts.Collection>(from: wowSportsPosts.wowSportsPostsCollectionStoragePath) != nil {
+      if acct.borrow<&wowSportsPostsV2.Collection>(from: wowSportsPostsV2.wowSportsPostsV2CollectionStoragePath) != nil {
               log("Collection exists!")
           } else {
             
-              acct.save<@wowSportsPosts.Collection>(<-wowSportsPosts.createEmptyCollection(), to: wowSportsPosts.wowSportsPostsCollectionStoragePath)
-              acct.link<&{wowSportsPosts.ICollectionPublic}>(wowSportsPosts.wowSportsPostsCollectionPublicPath, target: wowSportsPosts.wowSportsPostsCollectionStoragePath)
+              acct.save<@wowSportsPostsV2.Collection>(<-wowSportsPostsV2.createEmptyCollection(), to: wowSportsPostsV2.wowSportsPostsV2CollectionStoragePath)
+              acct.link<&{wowSportsPostsV2.ICollectionPublic}>(wowSportsPostsV2.wowSportsPostsV2CollectionPublicPath, target: wowSportsPostsV2.wowSportsPostsV2CollectionStoragePath)
           }
   
-        let postsReference = acct.borrow<&wowSportsPosts.Collection>(from: wowSportsPosts.wowSportsPostsCollectionStoragePath)      
-        let createdID = postsReference?.savePost(post: <- wowSportsPosts.newPost(post: post, url: url, timestamp: timestamp))
+        let postsReference = acct.borrow<&wowSportsPostsV2.Collection>(from: wowSportsPostsV2.wowSportsPostsV2CollectionStoragePath)      
+        let createdID = postsReference?.savePost(post: <- wowSportsPostsV2.newPost(post: post, url: url, timestamp: timestamp))
         log("created id is ".concat(createdID?.toString()!))
         log(postsReference?.getIDs())
     
@@ -77,8 +78,7 @@ export const createPost = async (address, userPrivateKey, post, url) => {
     }
   }`
 
-  // List of arguments
-  console.log('admin ', admin)
+  // List of arguments  
   const authorizations = [user]
   const proposer = user
   const payer = admin
@@ -94,17 +94,12 @@ export const createPost = async (address, userPrivateKey, post, url) => {
   })
 
   console.log(`Submitted transaction ${txId} to the network`)
-  console.log('Waiting for transaction to be sealed...')
-
-  const label = 'Transaction Sealing Time'
-  console.time(label)
+ 
   const txDetails = await tx(txId).onceSealed()
-  console.timeEnd(label)
+  
   console.log({ txDetails })
   const postId = txDetails.events[0].data.postid
   const statusString = txDetails.statusString
-
-  console.log('postId ', postId)
 
   return { postId, statusString }
 }
