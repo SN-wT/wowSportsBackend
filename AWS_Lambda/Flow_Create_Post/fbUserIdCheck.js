@@ -1,3 +1,4 @@
+//This script used for checking user ID is avalable in firebase DB
 import admin from 'firebase-admin'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -29,10 +30,10 @@ export const fbUserIdCheck = async (userId) => {
   await userPath.get().then((snapshot) => {
     if (snapshot.exists()) {
       userIdExist = true
-      console.log('user is available ')
+      
     } else {
       userIdExist = false
-      console.log('User ID not availabe')
+     
     }
   }).catch((error) => {
     console.error(error)
