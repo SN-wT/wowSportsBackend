@@ -1,3 +1,4 @@
+//Lambda script for creating user posts
 import dotenv from 'dotenv'
 import { fbUserIdCheck } from './fbUserIdCheck.js'
 import { getPrivKey } from './getPrivKey.js'
@@ -17,7 +18,7 @@ export const handler = async function (event) {
     return 'error getting input Details'
   }
 
-  if ((userId) && (userId.trim() !== '') && (post) && (post.trim() !== '') && (url) && (url.trim() !== '')) {
+  if ((userId) && (userId.trim() !== '') && (post) && (post.trim() !== '') || (url) && (url.trim() !== '')) {
     try {
       const { userIdExist } = await fbUserIdCheck(userId)
       if (userIdExist) {
@@ -31,6 +32,6 @@ export const handler = async function (event) {
       return { error: 'Something went wrong' }
     }
   }
-  console.log('Some event missing')
+  
   return { error: 'Invalid request' }
 }
