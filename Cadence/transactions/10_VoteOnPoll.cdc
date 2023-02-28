@@ -1,3 +1,4 @@
+// This transactions used for voting poll
 import wowSportsPoll from 0xf3510e7eb2b4cb38
 
 transaction {
