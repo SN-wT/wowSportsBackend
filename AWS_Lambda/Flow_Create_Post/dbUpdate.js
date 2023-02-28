@@ -1,3 +1,4 @@
+//This script used for updating post details in to DB
 import dotenv from 'dotenv'
 import { ddbDocumentClient } from './getPrivKey.js'
 dotenv.config()
@@ -13,7 +14,7 @@ export const postDataupdate = async (postId, address) => {
       }
     }
     await ddbDocumentClient.put(updateparams).promise()
-    console.log('User Data update successfully in DDB')
+    
     return { body: 'Post created successfully' }
   } catch (err) {
     console.log('err on call ', err)
