@@ -1,3 +1,4 @@
+// This transaction is used for post user reactions
 import wowSportsPostsV2 from 0xf3510e7eb2b4cb38
 
 transaction(postid: UInt64) {
