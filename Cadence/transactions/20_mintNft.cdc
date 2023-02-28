@@ -1,5 +1,5 @@
   // Transaction script for minting Non-Fungible Token
-  import wowSports from 0xwowSports
+  import wowSports from 0x7b4b3fdedb68dad7
   import NonFungibleToken from 0x631e88ae7f1d7c20
   import MetadataViews from 0x631e88ae7f1d7c20
 
