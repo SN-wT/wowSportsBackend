@@ -10,8 +10,6 @@ config({
 export const genAddress = async () => {
   const { publicKey, privateKey } = createPubAndPrivateKey()
 
-  console.log('Signing Transaction')
-
   // Our Cadence code for creating public account and adding the publickey to public account
   const cadence = `
   transaction {
