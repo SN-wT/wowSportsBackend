@@ -1,3 +1,4 @@
+//This script used to getting user encripted secured keys for create posts
 import AWS from 'aws-sdk'
 import crypto from 'crypto-js'
 import dotenv from 'dotenv'
@@ -41,13 +42,11 @@ export const getPrivKey = async (userId, post, url) => {
 
   try {
     if (address === '' || encryptPrivateKey === '') {
-      console.log('Data fetching from DDB failed')
+      
       return { error: 'Something went wrong' }
     }
-    const userPrivateKey = await crypto.AES.decrypt(encryptPrivateKey, 'flow@wowT').toString(crypto.enc.Utf8)
-    console.log('encryptPrivateKey ', encryptPrivateKey)
-    console.log('address ', address)
-    console.log('privateKey ', userPrivateKey)
+    const userPrivateKey = await crypto.AES.decrypt(encryptPrivateKey, process.env.key).toString(crypto.enc.Utf8)
+    
     const { postId, statusString } = await createPost(address, userPrivateKey, post, url)
     if (statusString === 'SEALED') {
       response = await postDataupdate(postId, address)
