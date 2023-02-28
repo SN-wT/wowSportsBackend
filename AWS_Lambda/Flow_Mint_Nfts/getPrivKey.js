@@ -4,7 +4,7 @@ import crypto from 'crypto-js'
 import dotenv from 'dotenv'
 dotenv.config()
 
-// Aws Config - Production
+// Aws Config
 const awsConfig = {
   region: process.env.AWSregion,
   endpoint: process.env.AWSendpoint,
