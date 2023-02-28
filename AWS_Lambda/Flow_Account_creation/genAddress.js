@@ -1,3 +1,4 @@
+// This code is used for generating user public account
 import { config, mutate, tx } from '@onflow/fcl'
 import { admin } from './adminAcc.js'
 import { createPubAndPrivateKey } from './genPubAndPrivKey.js'
