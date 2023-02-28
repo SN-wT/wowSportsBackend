@@ -1,3 +1,4 @@
+  // This script is used for getting post Reactions counts
   import wowSportsPostsV2 from 0xf3510e7eb2b4cb38
 
   // Get reactions owned by an account
