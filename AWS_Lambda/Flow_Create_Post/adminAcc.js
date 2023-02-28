@@ -1,3 +1,4 @@
+//This script used for signing admin Auth account
 import { sansPrefix, withPrefix } from '@onflow/fcl'
 import { SHA3 } from 'sha3'
 import elliptic from 'elliptic'
