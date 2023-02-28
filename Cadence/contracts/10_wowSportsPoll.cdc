@@ -1,3 +1,10 @@
+/* 
+*
+*  Cadence contract for create, vote polls.
+*  
+*   
+*/
+
 pub contract wowSportsPoll {
 
    
