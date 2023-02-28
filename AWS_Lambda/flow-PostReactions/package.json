@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@onflow/fcl": "^1.3.2",
+    "dotenv": "^16.0.3",
+    "elliptic": "^6.5.4",
+    "sha3": "^2.1.4"
+  },
+  "name": "flow-postreaction",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
