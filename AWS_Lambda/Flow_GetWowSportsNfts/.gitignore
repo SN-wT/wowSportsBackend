@@ -13,3 +13,6 @@ localRun.js
 #lambda zip files
 index.zip
 index-2.zip
+
+# package-lock file
+package-lock.json

@@ -6,3 +6,6 @@ node_modules/
 
 # lint configuration file
 .eslintrc.cjs
+
+# package-lock file
+package-lock.json
